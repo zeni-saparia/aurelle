@@ -1,0 +1,3 @@
+{ "name": "aurelle-tests", "private": true, "type": "module",
+  "scripts": { "db": "node db.test.mjs", "ui": "node ui.test.mjs", "php": "node php-syntax.mjs" },
+  "devDependencies": { "@electric-sql/pglite": "*", "@php-wasm/node": "*", "@php-wasm/universal": "*", "jsdom": "*", "esbuild": "*" } }

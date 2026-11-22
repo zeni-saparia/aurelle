@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/index.php": { "runtime": "vercel-php@0.7.4", "maxDuration": 30 }
+  },
+  "routes": [
+    { "src": "/(.*)", "headers": { "X-Content-Type-Options": "nosniff", "X-Frame-Options": "DENY", "Referrer-Policy": "strict-origin-when-cross-origin" }, "continue": true },
+    { "handle": "filesystem" },
+    { "src": "/api/(.*)", "dest": "/api/index.php" }
+  ]
+}
