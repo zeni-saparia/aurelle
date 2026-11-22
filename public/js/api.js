@@ -42,7 +42,24 @@ export async function api(path, { method = 'GET', body, query, form, retry = tru
     throw new ApiError('Cannot reach the server. Check your connection and try again.', 0);
   }
   if (res.status === 401 && retry && s?.refresh_token && await refresh()) return api(path, { method, body, query, form, retry: false });
-  const data = res.status === 204 ? null : await res.json().catch(() => null);
+  const raw = await res.text();
+let data = null;
+
+try {
+  data = raw ? JSON.parse(raw) : null;
+} catch {
+  throw new ApiError(
+    `Server returned an invalid response (HTTP ${res.status}).`,
+    res.status
+  );
+}
+
+if (!data) {
+  throw new ApiError(
+    `Server returned an empty response (HTTP ${res.status}). Check the API deployment.`,
+    res.status
+  );
+}
   if (!res.ok) throw new ApiError(data?.error || 'Something went wrong.', res.status, data);
   return data;
 }
