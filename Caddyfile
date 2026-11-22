@@ -1,0 +1,20 @@
+
+:{$PORT:80} {
+    encode zstd gzip
+
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Referrer-Policy strict-origin-when-cross-origin
+    }
+
+    handle_path /api/* {
+        root * /app/api
+        php_server
+    }
+
+    handle {
+        root * /app/public
+        file_server
+    }
+}
